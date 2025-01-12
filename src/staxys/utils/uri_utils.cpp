@@ -128,7 +128,6 @@ std::string staxys::utils::UriUtils::resolve(const std::string &base, const std:
 
     std::string relativeUrl = relative;
 
-//    // Resolve ..
     while (relativeUrl.find("../") == 0) {
         auto pos = path.rfind('/');
         if (pos != std::string::npos) {
@@ -144,15 +143,41 @@ std::string staxys::utils::UriUtils::resolve(const std::string &base, const std:
 
 
 bool staxys::utils::UriUtils::validate(const std::string &uri) {
-    return false;
+    if (uri.empty()) {
+        return false;
+    }
+
+    std::string uri_temp = uri;
+    if (!staxys::utils::StringUtils::contains(uri_temp, "://")) {
+        uri_temp = "http://" + uri_temp;
+    }
+
+    std::smatch match;
+    std::regex uri_regex(R"(^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?)");
+
+    return std::regex_match(uri_temp, match, uri_regex);
 }
 
 std::string staxys::utils::UriUtils::getPath(const std::string &uri) {
-    return std::string();
+    std::string scheme;
+    std::string host;
+    int port;
+    std::string path;
+    std::map<std::string, std::string> query;
+    std::string fragment;
+    staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment);
+    return path;
 }
 
 std::map<std::string, std::string> staxys::utils::UriUtils::getQuery(const std::string &uri) {
-    return std::map<std::string, std::string>();
+    std::string scheme;
+    std::string host;
+    int port;
+    std::string path;
+    std::map<std::string, std::string> query;
+    std::string fragment;
+    staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment);
+    return query;
 }
 
 std::string staxys::utils::UriUtils::join(const std::string &base, const std::string &relative) {

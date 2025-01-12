@@ -245,32 +245,19 @@ TEST(UriUtilsTest, Resolve) {
               "http://www.example.com/another/resource");
 }
 
-//TEST(UriUtilsTest, Validate) {
-//    std::string uri = "https://www.example.com/path/to/resource?query=param";
-//    ASSERT_TRUE(staxys::utils::UriUtils::validate(uri));
-//}
-//
-//TEST(UriUtilsTest, ValidateInvalid) {
-//    std::string uri = "https://www.example.com/path/to/resource?query=param";
-//    uri[0] = 'h';
-//    ASSERT_FALSE(staxys::utils::UriUtils::validate(uri));
-//}
-//
-//TEST(UriUtilsTest, GetPath) {
-//    std::string uri = "https://www.example.com/path/to/resource?query=param";
-//    std::string expected = "/path/to/resource";
-//    ASSERT_EQ(expected, staxys::utils::UriUtils::getPath(uri));
-//}
-//
-//TEST(UriUtilsTest, GetQuery) {
-//    std::string uri = "https://www.example.com/path/to/resource?query=param";
-//    std::map<std::string, std::string> expected = {{"query", "param"}};
-//    ASSERT_EQ(expected, staxys::utils::UriUtils::getQuery(uri));
-//}
-//
-//TEST(UriUtilsTest, Join) {
-//    std::string base = "https://www.example.com/path/to/resource";
-//    std::string relative = "/another/resource";
-//    std::string expected = "https://www.example.com/another/resource";
-//    ASSERT_EQ(expected, staxys::utils::UriUtils::join(base, relative));
-//}
+TEST(UriUtilsTest, Validate) {
+    std::string uri = "https://www.example.com/path/to/resource?query=param";
+    ASSERT_TRUE(staxys::utils::UriUtils::validate(uri));
+}
+
+TEST(UriUtilsTest, GetPath) {
+    std::string uri = "https://www.example.com/path/to/resource?query=param";
+    std::string expected = "/path/to/resource";
+    ASSERT_EQ(expected, staxys::utils::UriUtils::getPath(uri));
+}
+
+TEST(UriUtilsTest, GetQuery) {
+    std::string uri = "https://www.example.com/path/to/resource?query=param";
+    std::map<std::string, std::string> expected = {{"query", "param"}};
+    ASSERT_EQ(expected, staxys::utils::UriUtils::getQuery(uri));
+}
