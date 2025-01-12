@@ -17,6 +17,35 @@
 #ifndef STAXYS_URI_UTILS_H
 #define STAXYS_URI_UTILS_H
 
-// TODO: Implement URIUtils
+#include <string>
+#include <map>
+
+namespace staxys::utils {
+
+    class UriUtils {
+    public:
+        static bool parse(const std::string &uri, std::string &scheme, std::string &host,
+                          int &port, std::string &path, std::map<std::string, std::string> &query,
+                          std::string &fragment);
+
+        static std::string encode(const std::string &component);
+
+        static std::string decode(const std::string &component);
+
+        static std::string resolve(const std::string &base, const std::string &relative);
+
+        static bool validate(const std::string &uri);
+
+        static std::string getPath(const std::string &uri);
+
+        static std::map<std::string, std::string> getQuery(const std::string &uri);
+
+        static std::string join(const std::string &base, const std::string &relative);
+
+    private:
+        static bool parseQuery(const std::string &queryString, std::map<std::string, std::string> &queryParams);
+    };
+
+}
 
 #endif //STAXYS_URI_UTILS_H

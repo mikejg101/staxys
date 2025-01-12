@@ -25,7 +25,7 @@ file(GLOB_RECURSE SOURCES
         ${PROJECT_SOURCE_DIR}/src/staxys/logging/*.cpp
         ${PROJECT_SOURCE_DIR}/src/staxys/static_content/*.cpp
         ${PROJECT_SOURCE_DIR}/src/staxys/utils/*.cpp
-        ${PROJECT_SOURCE_DIR}/tests/test_utils_string_utils.cpp
+        ${PROJECT_SOURCE_DIR}/tests/*.cpp
 )
 
 # Define the test executable
