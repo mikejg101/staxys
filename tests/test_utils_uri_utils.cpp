@@ -19,140 +19,100 @@
 
 TEST(UriUtilsTest, Parse) {
     std::string uri = "https://www.example.com:8080/path/to/resource?query=param";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("https", scheme);
-    ASSERT_EQ("www.example.com", host);
-    ASSERT_EQ(8080, port);
-    ASSERT_EQ("/path/to/resource", path);
-    ASSERT_EQ(1, query.size());
-    ASSERT_EQ("param", query["query"]);
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("https", components.scheme);
+    ASSERT_EQ("www.example.com", components.host);
+    ASSERT_EQ("8080", components.port);
+    ASSERT_EQ("/path/to/resource", components.path);
+    ASSERT_EQ(1, components.query.size());
+    ASSERT_EQ("param", components.query["query"]);
 }
 
 TEST(UriUtilsTest, ParseWithoutScheme) {
     std::string uri = "www.example.com:8080/path/to/resource?query=param";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("http", scheme);
-    ASSERT_EQ("www.example.com", host);
-    ASSERT_EQ(8080, port);
-    ASSERT_EQ("/path/to/resource", path);
-    ASSERT_EQ(1, query.size());
-    ASSERT_EQ("param", query["query"]);
-    ASSERT_EQ(0, fragment.size());
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("http", components.scheme);
+    ASSERT_EQ("www.example.com", components.host);
+    ASSERT_EQ("8080", components.port);
+    ASSERT_EQ("/path/to/resource", components.path);
+    ASSERT_EQ(1, components.query.size());
+    ASSERT_EQ("param", components.query["query"]);
+    ASSERT_EQ(0, components.fragment.size());
 }
 
 TEST(UriUtilsTest, ParseWithoutQueryParams) {
     std::string uri = "www.example.com:8080/path/to/resource";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("http", scheme);
-    ASSERT_EQ("www.example.com", host);
-    ASSERT_EQ(8080, port);
-    ASSERT_EQ("/path/to/resource", path);
-    ASSERT_EQ(0, query.size());
-    ASSERT_EQ(0, fragment.size());
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("http", components.scheme);
+    ASSERT_EQ("www.example.com", components.host);
+    ASSERT_EQ("8080", components.port);
+    ASSERT_EQ("/path/to/resource", components.path);
+    ASSERT_EQ(0, components.query.size());
+    ASSERT_EQ(0, components.fragment.size());
 }
 
 TEST(UriUtilsTest, ParseRootWithPort) {
     std::string uri = "www.example.com:8080";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("http", scheme);
-    ASSERT_EQ("www.example.com", host);
-    ASSERT_EQ(8080, port);
-    ASSERT_EQ("/", path);
-    ASSERT_EQ(0, query.size());
-    ASSERT_EQ(0, fragment.size());
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("http", components.scheme);
+    ASSERT_EQ("www.example.com", components.host);
+    ASSERT_EQ("8080", components.port);
+    ASSERT_EQ("/", components.path);
+    ASSERT_EQ(0, components.query.size());
+    ASSERT_EQ(0, components.fragment.size());
 }
 
 TEST(UriUtilsTest, ParseRoot) {
     std::string uri = "www.example.com";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("http", scheme);
-    ASSERT_EQ("www.example.com", host);
-    ASSERT_EQ(80, port);
-    ASSERT_EQ("/", path);
-    ASSERT_EQ(0, query.size());
-    ASSERT_EQ(0, fragment.size());
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("http", components.scheme);
+    ASSERT_EQ("www.example.com", components.host);
+    ASSERT_EQ("", components.port);
+    ASSERT_EQ("/", components.path);
+    ASSERT_EQ(0, components.query.size());
+    ASSERT_EQ(0, components.fragment.size());
 }
 
 TEST(UriUtilsTest, ParseLocalHost) {
     std::string uri = "localhost";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("http", scheme);
-    ASSERT_EQ("localhost", host);
-    ASSERT_EQ(80, port);
-    ASSERT_EQ("/", path);
-    ASSERT_EQ(0, query.size());
-    ASSERT_EQ(0, fragment.size());
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("http", components.scheme);
+    ASSERT_EQ("localhost", components.host);
+    ASSERT_EQ("", components.port);
+    ASSERT_EQ("/", components.path);
+    ASSERT_EQ(0, components.query.size());
+    ASSERT_EQ(0, components.fragment.size());
 }
 
 TEST(UriUtilsTest, ParseIp) {
     std::string uri = "192.68.1.1";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("http", scheme);
-    ASSERT_EQ("192.68.1.1", host);
-    ASSERT_EQ(80, port);
-    ASSERT_EQ("/", path);
-    ASSERT_EQ(0, query.size());
-    ASSERT_EQ(0, fragment.size());
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("http", components.scheme);
+    ASSERT_EQ("192.68.1.1", components.host);
+    ASSERT_EQ("", components.port);
+    ASSERT_EQ("/", components.path);
+    ASSERT_EQ(0, components.query.size());
+    ASSERT_EQ(0, components.fragment.size());
 }
 
 TEST(UriUtilsTest, ParseWithFragment) {
     std::string uri = "https://www.example.com:8080/path/to/resource?query=param#fragment";
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment));
-    ASSERT_EQ("https", scheme);
-    ASSERT_EQ("www.example.com", host);
-    ASSERT_EQ(8080, port);
-    ASSERT_EQ("/path/to/resource", path);
-    ASSERT_EQ(1, query.size());
-    ASSERT_EQ("param", query["query"]);
-    ASSERT_EQ("fragment", fragment);
+    staxys::utils::UriUtils::UriComponents components;
+    ASSERT_TRUE(staxys::utils::UriUtils::parse(uri, components));
+    ASSERT_EQ("https", components.scheme);
+    ASSERT_EQ("www.example.com", components.host);
+    ASSERT_EQ("8080", components.port);
+    ASSERT_EQ("/path/to/resource", components.path);
+    ASSERT_EQ(1, components.query.size());
+    ASSERT_EQ("param", components.query["query"]);
+    ASSERT_EQ("fragment", components.fragment);
 }
 
 TEST(UriUtilsTest, Encode) {

@@ -21,9 +21,7 @@
 #include <iomanip>
 #include <iostream>
 
-bool staxys::utils::UriUtils::parse(const std::string &uri, std::string &scheme, std::string &host,
-                                    int &port, std::string &path, std::map<std::string, std::string> &query,
-                                    std::string &fragment) {
+bool staxys::utils::UriUtils::parse(const std::string &uri, staxys::utils::UriUtils::UriComponents &components) {
     if (uri.empty()) {
         return false;
     }
@@ -40,26 +38,26 @@ bool staxys::utils::UriUtils::parse(const std::string &uri, std::string &scheme,
         return false;
     }
 
-    scheme = match[2].str();
-    host = match[4].str();
+    components.scheme = match[2].str();
+    components.host = match[4].str();
 
-    if (staxys::utils::StringUtils::contains(host, ":")) {
-        auto pos = host.find(':');
-        port = std::stoi(host.substr(pos + 1));
-        host = host.substr(0, pos);
+    if (staxys::utils::StringUtils::contains(components.host, ":")) {
+        auto pos = components.host.find(':');
+        components.port = components.host.substr(pos + 1);
+        components.host = components.host.substr(0, pos);
     } else {
-        port = (scheme == "https") ? 443 : 80;
+        components.port = "";
     }
 
-    path = match[5].str().empty() ? "/" : match[5].str();
+    components.path = match[5].str().empty() ? "/" : match[5].str();
 
     if (!match[7].str().empty()) {
-        parseQuery(match[7].str(), query);
+        parseQuery(match[7].str(), components.query);
     }
 
     // match fragment
     if (!match[9].str().empty()) {
-        fragment = match[9].str();
+        components.fragment = match[9].str();
     }
 
     return true;
@@ -94,18 +92,15 @@ std::string staxys::utils::UriUtils::decode(const std::string &component) {
 }
 
 std::string staxys::utils::UriUtils::resolve(const std::string &base, const std::string &relative) {
-    std::string scheme;
-    std::string host;
-    int portNum;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    auto isValid = staxys::utils::UriUtils::parse(base, scheme, host, portNum, path, query, fragment);
+    staxys::utils::UriUtils::UriComponents components;
+    auto isValid = staxys::utils::UriUtils::parse(base, components);
     if (!isValid) {
         return "";
     }
 
-    std::string port = (portNum == 80 || portNum == 443) ? "" : ":" + std::to_string(portNum);
+    std::string port = (components.port.empty())
+                       ? ""
+                       : ":" + components.port;
 
     if (relative.empty()) {
         return base;
@@ -118,27 +113,27 @@ std::string staxys::utils::UriUtils::resolve(const std::string &base, const std:
 
     // If the relative URI is a path, resolve it against the base URI
     if (relative[0] == '/') {
-        return scheme + "://" + host + port + relative;
+        return components.scheme + "://" + components.host + port + relative;
     }
 
     // If the relative URI is a query or a fragment, resolve it against the base URI
     if (relative[0] == '?' || relative[0] == '#') {
-        return scheme + "://" + host + port + path + relative;
+        return components.scheme + "://" + components.host + port + components.path + relative;
     }
 
     std::string relativeUrl = relative;
 
     while (relativeUrl.find("../") == 0) {
-        auto pos = path.rfind('/');
+        auto pos = components.path.rfind('/');
         if (pos != std::string::npos) {
-            path = path.substr(0, pos);
+            components.path = components.path.substr(0, pos);
         }
         relativeUrl = relativeUrl.substr(3);
-        std::cout << "path: " << path << std::endl;
+        std::cout << "path: " << components.path << std::endl;
         std::cout << "relativeUrl: " << relativeUrl << std::endl;
     }
 
-    return scheme + "://" + host + port + path + "/" + relativeUrl;
+    return components.scheme + "://" + components.host + port + components.path + "/" + relativeUrl;
 }
 
 
@@ -159,25 +154,15 @@ bool staxys::utils::UriUtils::validate(const std::string &uri) {
 }
 
 std::string staxys::utils::UriUtils::getPath(const std::string &uri) {
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment);
-    return path;
+    staxys::utils::UriUtils::UriComponents components;
+    staxys::utils::UriUtils::parse(uri, components);
+    return components.path;
 }
 
 std::map<std::string, std::string> staxys::utils::UriUtils::getQuery(const std::string &uri) {
-    std::string scheme;
-    std::string host;
-    int port;
-    std::string path;
-    std::map<std::string, std::string> query;
-    std::string fragment;
-    staxys::utils::UriUtils::parse(uri, scheme, host, port, path, query, fragment);
-    return query;
+    staxys::utils::UriUtils::UriComponents components;
+    staxys::utils::UriUtils::parse(uri, components);
+    return components.query;
 }
 
 std::string staxys::utils::UriUtils::join(const std::string &base, const std::string &relative) {

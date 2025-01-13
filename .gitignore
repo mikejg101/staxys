@@ -56,3 +56,6 @@ Thumbs.db
 
 # Ignore test-specific files if you're using certain testing tools
 *.gtest
+
+# Diff file
+staged.diff

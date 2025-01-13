@@ -30,7 +30,7 @@ namespace staxys::network {
 
         [[nodiscard]] bool isValidUri() const { return isValid; }
 
-        [[nodiscard]] int getPort() const { return port; }
+        [[nodiscard]] std::string getPort() const { return port; }
 
         [[nodiscard]] std::string getScheme() const { return scheme; }
 
@@ -50,7 +50,7 @@ namespace staxys::network {
 
     private:
         std::string raw;
-        int port;
+        std::string port;
         std::string scheme;
         std::string host;
         std::string path;

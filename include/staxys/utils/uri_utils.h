@@ -24,26 +24,33 @@ namespace staxys::utils {
 
     class UriUtils {
     public:
-        static bool parse(const std::string &uri, std::string &scheme, std::string &host,
-                          int &port, std::string &path, std::map<std::string, std::string> &query,
-                          std::string &fragment);
+        struct UriComponents {
+            std::string scheme;
+            std::string host;
+            std::string port;
+            std::string path;
+            std::map<std::string, std::string> query;
+            std::string fragment;
+        };
 
-        static std::string encode(const std::string &component);
+        static bool parse(const std::string&, UriComponents&);
 
-        static std::string decode(const std::string &component);
+        static std::string encode(const std::string&);
 
-        static std::string resolve(const std::string &base, const std::string &relative);
+        static std::string decode(const std::string&);
 
-        static bool validate(const std::string &uri);
+        static std::string resolve(const std::string&, const std::string&);
 
-        static std::string getPath(const std::string &uri);
+        static bool validate(const std::string&);
 
-        static std::map<std::string, std::string> getQuery(const std::string &uri);
+        static std::string getPath(const std::string&);
 
-        static std::string join(const std::string &base, const std::string &relative);
+        static std::map<std::string, std::string> getQuery(const std::string&);
+
+        static std::string join(const std::string&, const std::string&);
 
     private:
-        static bool parseQuery(const std::string &queryString, std::map<std::string, std::string> &queryParams);
+        static bool parseQuery(const std::string&, std::map<std::string, std::string>&);
     };
 
 }
