@@ -15,3 +15,7 @@
  */
 
 #include "staxys/core/config.h"
+
+staxys::core::Config::Config() : m_user("staxys"), m_pid_file("/var/run/staxys.pid") {
+
+}

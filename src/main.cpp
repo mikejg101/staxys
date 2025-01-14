@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <pwd.h>
 #include "staxys/utils/daemon_utils.h"
+#include "staxys/core/config.h"
 
 void mainTask() {
     while (true) {
@@ -35,38 +36,42 @@ bool checkUserExists(const std::string &userName) {
 
 int main(int argc, char *argv[]) {
 
-    if (!checkUserExists("staxys")) {
+    if (argc != 2) {
+        std::cerr << "Usage: staxys [start|stop]" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    staxys::core::Config config;
+
+    // Read the configuration file
+
+    if (!checkUserExists(config.user())) {
         std::cerr
                 << "User 'staxys' does not exist. Please create the user or configure the application to use an existing user."
                 << std::endl;
         return EXIT_FAILURE;
     }
 
-    const std::string pidFile = "/var/run/staxys.pid";
+    const std::string pidFile = config.pidFile();
 
-    if (argc == 2) {
-        std::string command = argv[1];
-        if (command == "start") {
-            std::cout << "Starting the application..." << std::endl;
-            if (staxys::utils::DaemonUtils::start(pidFile)) {
-                std::cout << "Application started successfully." << std::endl;
-                mainTask();
-            } else {
-                std::cerr << "Failed to start the application." << std::endl;
-                return EXIT_FAILURE;
-            }
-        } else if (command == "stop") {
-            std::cout << "Stopping the application..." << std::endl;
-            if (!staxys::utils::DaemonUtils::stop(pidFile)) {
-                std::cerr << "Failed to stop the application." << std::endl;
-                return EXIT_FAILURE;
-            }
+    std::string command = argv[1];
+    if (command == "start") {
+        std::cout << "Starting the application..." << std::endl;
+        if (staxys::utils::DaemonUtils::start(pidFile)) {
+            std::cout << "Application started successfully." << std::endl;
+            mainTask();
         } else {
-            std::cerr << "Unknown command. Use 'start' or 'stop'." << std::endl;
+            std::cerr << "Failed to start the application." << std::endl;
+            return EXIT_FAILURE;
+        }
+    } else if (command == "stop") {
+        std::cout << "Stopping the application..." << std::endl;
+        if (!staxys::utils::DaemonUtils::stop(pidFile)) {
+            std::cerr << "Failed to stop the application." << std::endl;
+            return EXIT_FAILURE;
         }
     } else {
-        std::cerr << "Usage: staxys [start|stop]" << std::endl;
-        return EXIT_FAILURE;
+        std::cerr << "Unknown command. Use 'start' or 'stop'." << std::endl;
     }
 
     return EXIT_SUCCESS;
