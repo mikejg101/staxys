@@ -14,28 +14,61 @@
  * limitations under the License.
  */
 
+#include <cstdlib>
+#include <string>
 #include <iostream>
+#include <unistd.h>
+#include <pwd.h>
+#include "staxys/utils/daemon_utils.h"
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-int main() {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the
-    // <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
-
-    for (int i = 1; i <= 5; i++) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code.
-        // We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/>
-        // breakpoint for you, but you can always add more by pressing
-        // <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
+void mainTask() {
+    while (true) {
+        sleep(10);
     }
-
-    return 0;
 }
 
-// TIP See CLion help at <a
-// href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>.
-//  Also, you can try interactive lessons for CLion by selecting
-//  'Help | Learn IDE Features' from the main menu.
+// TODO: This shouldn't be here
+bool checkUserExists(const std::string &userName) {
+    struct passwd *pw = getpwnam(userName.c_str());
+    return pw != nullptr;
+}
+
+int main(int argc, char *argv[]) {
+
+    if (!checkUserExists("staxys")) {
+        std::cerr
+                << "User 'staxys' does not exist. Please create the user or configure the application to use an existing user."
+                << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    const std::string pidFile = "/var/run/staxys.pid";
+
+    if (argc == 2) {
+        std::string command = argv[1];
+        if (command == "start") {
+            std::cout << "Starting the application..." << std::endl;
+            if (staxys::utils::DaemonUtils::start(pidFile)) {
+                std::cout << "Application started successfully." << std::endl;
+                mainTask();
+            } else {
+                std::cerr << "Failed to start the application." << std::endl;
+                return EXIT_FAILURE;
+            }
+        } else if (command == "stop") {
+            std::cout << "Stopping the application..." << std::endl;
+            if (!staxys::utils::DaemonUtils::stop(pidFile)) {
+                std::cerr << "Failed to stop the application." << std::endl;
+                return EXIT_FAILURE;
+            }
+        } else {
+            std::cerr << "Unknown command. Use 'start' or 'stop'." << std::endl;
+        }
+    } else {
+        std::cerr << "Usage: staxys [start|stop]" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
