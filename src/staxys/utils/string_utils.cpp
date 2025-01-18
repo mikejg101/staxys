@@ -44,8 +44,8 @@ std::string staxys::utils::StringUtils::trim(const std::string &str) {
 std::vector<std::string> staxys::utils::StringUtils::split(const std::string &str, char delimiter) {
   std::vector<std::string> result;
   std::string token;
-  std::istringstream tokenStream(str);
-  while (std::getline(tokenStream, token, delimiter)) {
+  std::istringstream token_stream(str);
+  while (std::getline(token_stream, token, delimiter)) {
     result.push_back(token);
   }
   return result;

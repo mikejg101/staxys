@@ -93,8 +93,8 @@ std::string staxys::utils::UriUtils::decode(const std::string &component) {
 
 std::string staxys::utils::UriUtils::resolve(const std::string &base, const std::string &relative) {
   staxys::utils::UriUtils::UriComponents components;
-  auto isValid = staxys::utils::UriUtils::parse(base, components);
-  if (!isValid) {
+  auto is_valid = staxys::utils::UriUtils::parse(base, components);
+  if (!is_valid) {
     return "";
   }
 
@@ -119,19 +119,19 @@ std::string staxys::utils::UriUtils::resolve(const std::string &base, const std:
     return components.scheme + "://" + components.host + port + components.path + relative;
   }
 
-  std::string relativeUrl = relative;
+  std::string relative_url = relative;
 
-  while (relativeUrl.find("../") == 0) {
+  while (relative_url.find("../") == 0) {
     auto pos = components.path.rfind('/');
     if (pos != std::string::npos) {
       components.path = components.path.substr(0, pos);
     }
-    relativeUrl = relativeUrl.substr(3);
-    std::cout << "path: " << components.path << std::endl;
-    std::cout << "relativeUrl: " << relativeUrl << std::endl;
+    relative_url = relative_url.substr(3);
+    std::cout << "Path: " << components.path << std::endl;
+    std::cout << "Relative Url: " << relative_url << std::endl;
   }
 
-  return components.scheme + "://" + components.host + port + components.path + "/" + relativeUrl;
+  return components.scheme + "://" + components.host + port + components.path + "/" + relative_url;
 }
 
 bool staxys::utils::UriUtils::validate(const std::string &uri) {
@@ -169,9 +169,9 @@ std::string staxys::utils::UriUtils::join(const std::string &base, const std::st
 bool staxys::utils::UriUtils::parse_query(const std::string &queryString,
                                           std::map<std::string, std::string> &queryParams) {
   auto query = queryString[0] == '?' ? queryString.substr(1) : queryString;
-  std::istringstream queryStream(query);
+  std::istringstream query_stream(query);
   std::string param;
-  while (std::getline(queryStream, param, '&')) {
+  while (std::getline(query_stream, param, '&')) {
     auto pos = param.find('=');
     if (pos != std::string::npos) {
       auto key = param.substr(0, pos);
