@@ -12,6 +12,11 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
 
 # Install Boost libraries
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    clang \
+    clang-tidy \
+    ninja-build \
     libboost-all-dev \
     && rm -rf /var/lib/apt/lists/*
 
