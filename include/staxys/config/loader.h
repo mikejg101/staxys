@@ -19,8 +19,8 @@
 
 #include "staxys/config/engine_config.h"
 #include "staxys/config/server_config.h"
-#include <string>
 #include <memory>
+#include <string>
 
 namespace staxys::config {
 class Loader final {
