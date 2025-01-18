@@ -19,4 +19,4 @@
 
 // TODO: Implement AccessLog
 
-#endif //STAXYS_ACCESS_LOG_H
+#endif // STAXYS_ACCESS_LOG_H

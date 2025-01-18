@@ -17,6 +17,19 @@
 #ifndef STAXYS_LOADER_H
 #define STAXYS_LOADER_H
 
-// TODO: Implement Loader
+#include "staxys/config/engine_config.h"
+#include "staxys/config/server_config.h"
+#include <string>
+#include <memory>
 
-#endif //STAXYS_LOADER_H
+namespace staxys::config {
+class Loader final {
+public:
+  static std::shared_ptr<const EngineConfig> load_engine_config(const std::string &);
+  static std::shared_ptr<const ServerConfig> load_server_config(const std::string &);
+  Loader() = delete;
+  ~Loader() = delete;
+};
+} // namespace staxys::config
+
+#endif // STAXYS_LOADER_H

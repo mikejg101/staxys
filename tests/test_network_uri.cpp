@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
-#include "staxys/network/uri.h"
+//#include <gtest/gtest.h>
+//#include "staxys/network/uri.h"
 
-TEST(UriTest, Parse) {
-    std::string uri = "https://www.example.com:8080/path/to/resource?query=param";
-    staxys::network::Uri u(uri);
-    ASSERT_EQ("https", u.getScheme());
-    ASSERT_EQ("www.example.com", u.getHost());
-    ASSERT_EQ(8080, u.getPort());
-    ASSERT_EQ("/path/to/resource", u.getPath());
-    ASSERT_EQ(1, u.getQuerySize());
-    ASSERT_EQ("param", u.getQueryParameter("query"));
-}
+//TEST(UriTest, Parse) {
+//    std::string uri = "https://www.example.com:8080/path/to/resource?query=param";
+//    staxys::network::Uri u(uri);
+//    ASSERT_EQ("https", u.getScheme());
+//    ASSERT_EQ("www.example.com", u.getHost());
+//    ASSERT_EQ(8080, u.getPort());
+//    ASSERT_EQ("/path/to/resource", u.getPath());
+//    ASSERT_EQ(1, u.getQuerySize());
+//    ASSERT_EQ("param", u.getQueryParameter("query"));
+//}

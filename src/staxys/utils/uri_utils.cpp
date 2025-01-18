@@ -52,7 +52,7 @@ bool staxys::utils::UriUtils::parse(const std::string &uri, staxys::utils::UriUt
     components.path = match[5].str().empty() ? "/" : match[5].str();
 
     if (!match[7].str().empty()) {
-        parseQuery(match[7].str(), components.query);
+        parse_query(match[7].str(), components.query);
     }
 
     // match fragment
@@ -153,13 +153,13 @@ bool staxys::utils::UriUtils::validate(const std::string &uri) {
     return std::regex_match(uri_temp, match, uri_regex);
 }
 
-std::string staxys::utils::UriUtils::getPath(const std::string &uri) {
+std::string staxys::utils::UriUtils::get_path(const std::string &uri) {
     staxys::utils::UriUtils::UriComponents components;
     staxys::utils::UriUtils::parse(uri, components);
     return components.path;
 }
 
-std::map<std::string, std::string> staxys::utils::UriUtils::getQuery(const std::string &uri) {
+std::map<std::string, std::string> staxys::utils::UriUtils::get_query(const std::string &uri) {
     staxys::utils::UriUtils::UriComponents components;
     staxys::utils::UriUtils::parse(uri, components);
     return components.query;
@@ -169,7 +169,7 @@ std::string staxys::utils::UriUtils::join(const std::string &base, const std::st
     return std::string();
 }
 
-bool staxys::utils::UriUtils::parseQuery(const std::string &queryString, std::map<std::string,
+bool staxys::utils::UriUtils::parse_query(const std::string &queryString, std::map<std::string,
         std::string> &queryParams) {
     auto query = queryString[0] == '?' ? queryString.substr(1) : queryString;
     std::istringstream queryStream(query);

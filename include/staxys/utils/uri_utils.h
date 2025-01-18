@@ -17,42 +17,42 @@
 #ifndef STAXYS_URI_UTILS_H
 #define STAXYS_URI_UTILS_H
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace staxys::utils {
 
-    class UriUtils {
-    public:
-        struct UriComponents {
-            std::string scheme;
-            std::string host;
-            std::string port;
-            std::string path;
-            std::map<std::string, std::string> query;
-            std::string fragment;
-        };
+class UriUtils {
+public:
+  struct UriComponents {
+    std::string scheme;
+    std::string host;
+    std::string port;
+    std::string path;
+    std::map<std::string, std::string> query;
+    std::string fragment;
+  };
 
-        static bool parse(const std::string&, UriComponents&);
+  static bool parse(const std::string &, UriComponents &);
 
-        static std::string encode(const std::string&);
+  static std::string encode(const std::string &);
 
-        static std::string decode(const std::string&);
+  static std::string decode(const std::string &);
 
-        static std::string resolve(const std::string&, const std::string&);
+  static std::string resolve(const std::string &, const std::string &);
 
-        static bool validate(const std::string&);
+  static bool validate(const std::string &);
 
-        static std::string getPath(const std::string&);
+  static std::string get_path(const std::string &);
 
-        static std::map<std::string, std::string> getQuery(const std::string&);
+  static std::map<std::string, std::string> get_query(const std::string &);
 
-        static std::string join(const std::string&, const std::string&);
+  static std::string join(const std::string &, const std::string &);
 
-    private:
-        static bool parseQuery(const std::string&, std::map<std::string, std::string>&);
-    };
+private:
+  static bool parse_query(const std::string &, std::map<std::string, std::string> &);
+};
 
-}
+} // namespace staxys::utils
 
-#endif //STAXYS_URI_UTILS_H
+#endif // STAXYS_URI_UTILS_H

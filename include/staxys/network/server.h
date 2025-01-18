@@ -19,4 +19,4 @@
 
 // TODO: Implement Server
 
-#endif //STAXYS_SERVER_H
+#endif // STAXYS_SERVER_H

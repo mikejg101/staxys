@@ -1,0 +1,45 @@
+#!/bin/bash
+
+mkdir -p /etc/staxys /var/log/staxys /var/www/html
+
+# Create the staxys group if it doesn't exist
+if ! getent group staxys >/dev/null; then
+    echo "Creating staxys group..."
+    groupadd staxys
+else
+    echo "staxys group already exists."
+fi
+
+# Create the staxys user if it doesn't exist
+if ! id "staxys" &>/dev/null; then
+    echo "Creating staxys user..."
+    useradd -r -g staxys -s /usr/sbin/nologin staxys
+else
+    echo "staxys user already exists."
+fi
+
+# Add staxys user to the www-data group if not already a member
+if ! groups staxys | grep &>/dev/null "\bwww-data\b"; then
+    echo "Adding staxys user to www-data group..."
+    usermod -aG www-data staxys
+else
+    echo "staxys user is already in www-data group."
+fi
+
+# Change ownership of relevant directories
+echo "Changing ownership of directories..."
+
+# Assign staxys ownership for config and logs
+chown -R staxys:staxys /etc/staxys /var/log/staxys 
+
+# Assign www-data ownership for web content
+chown -R www-data:www-data /var/www/html
+
+# Set permissions for directories
+chmod -R 755 /etc/staxys /var/log/staxys /var/www/html
+
+# Set ownership and permissions for the application binary
+chown root:root /usr/local/bin/staxys
+chmod 755 /usr/local/bin/staxys  # Give execute permission to all
+
+echo "Permissions and ownership have been updated."

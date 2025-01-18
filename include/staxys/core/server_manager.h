@@ -19,4 +19,4 @@
 
 // TODO: Implement ServerManager
 
-#endif //STAXYS_SERVER_MANAGER_H
+#endif // STAXYS_SERVER_MANAGER_H

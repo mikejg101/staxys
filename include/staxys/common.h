@@ -14,26 +14,13 @@
  * limitations under the License.
  */
 
-#ifndef STAXYS_CONFIG_H
-#define STAXYS_CONFIG_H
+#ifndef STAXYS_COMMON_H
+#define STAXYS_COMMON_H
 
-#include <string>
+#ifdef DEBUG
+#define IS_DEBUG 1
+#else
+#define IS_DEBUG 0
+#endif
 
-namespace staxys::core {
-    class Config {
-    public:
-        Config();
-
-        ~Config() = default;
-
-        [[nodiscard]] std::string user() const { return m_user; };
-
-        [[nodiscard]] std::string pidFile() const { return m_pid_file; };
-
-    private:
-        std::string m_user;
-        std::string m_pid_file;
-    };
-}
-
-#endif //STAXYS_CONFIG_H
+#endif // STAXYS_COMMON_H

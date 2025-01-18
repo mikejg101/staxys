@@ -19,4 +19,4 @@
 
 // TODO: Implement Cache
 
-#endif //STAXYS_CACHE_H
+#endif // STAXYS_CACHE_H

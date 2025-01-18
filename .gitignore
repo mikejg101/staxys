@@ -59,3 +59,6 @@ Thumbs.db
 
 # Diff file
 staged.diff
+
+# Build directory 
+build/*

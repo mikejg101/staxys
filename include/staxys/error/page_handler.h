@@ -19,4 +19,4 @@
 
 // TODO: Implement PageHandler
 
-#endif //STAXYS_PAGE_HANDLER_H
+#endif // STAXYS_PAGE_HANDLER_H

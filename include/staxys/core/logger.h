@@ -19,4 +19,4 @@
 
 // TODO: Implement Logger
 
-#endif //STAXYS_LOGGER_H
+#endif // STAXYS_LOGGER_H

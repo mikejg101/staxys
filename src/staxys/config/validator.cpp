@@ -15,4 +15,21 @@
  */
 
 #include "staxys/config/validator.h"
+#include <iostream>
 
+namespace staxys::config {
+
+    bool Validator::validate_engine_config(const std::shared_ptr<const EngineConfig> &config) {
+        if (config->listen_ports().empty()) {
+            std::cerr << "No ports have been defined for Staxys to listen on." << std::endl;
+            return false;
+        }
+        return true;
+    }
+
+    bool Validator::validate_server_config(const std::shared_ptr<const ServerConfig> &config) {
+        // TODO: Actual validation
+        return true;
+    }
+
+} // namespace staxys::config

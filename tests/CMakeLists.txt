@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+set(BUILD_GTEST OFF CACHE BOOL "Disable GoogleTest installation")
+
 enable_testing()
 
 file(GLOB_RECURSE SOURCES

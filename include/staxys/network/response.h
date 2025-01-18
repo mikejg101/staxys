@@ -19,4 +19,4 @@
 
 // TODO: Implement Response
 
-#endif //STAXYS_RESPONSE_H
+#endif // STAXYS_RESPONSE_H

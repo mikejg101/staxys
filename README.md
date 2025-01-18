@@ -26,7 +26,7 @@ files, logs, static content, and other resources for ease of use and maintainabi
 
 ```
 /etc/staxys/                # Main configuration directory
-    ├── staxys.conf         # Main Staxys configuration file
+    ├── staxys.cfg          # Main Staxys configuration file
     ├── conf.d/             # Additional config files
     │   ├── server1.cfg     # Example site config
     │   ├── server2.cfg     # Example site config
@@ -349,8 +349,8 @@ error_503_page = "/var/www/example.com/503.html"
 default_error_page = "/var/www/example.com/error.html"
 
 # Specific access control for this server 
-allow_ip = "192.168.1.0/24"
-deny_ip = "10.0.0.0/8"
+allowed_ips = "192.168.1.0/24"
+denied_ips = "10.0.0.0/8"
 
 # Enable or disable caching for this server
 cache_enabled = true

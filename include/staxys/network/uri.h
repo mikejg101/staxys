@@ -17,48 +17,37 @@
 #ifndef STAXYS_URI_H
 #define STAXYS_URI_H
 
-#include <string>
 #include <map>
+#include <string>
 
 namespace staxys::network {
 
-    class Uri {
-    public:
-        explicit Uri(std::string uri);
+class Uri {
+public:
+  explicit Uri(std::string url);
+  ~Uri() = default;
+  const bool is_valid_uri() const { return m_is_valid; }
+  const std::string &query_parameter(const std::string &key) const { return m_query.at(key); }
+  const std::string &port() const { return m_port; }
+  const std::string &scheme() const { return m_scheme; }
+  const std::string &host() const { return m_host; }
+  const std::string &path() const { return m_path; }
+  const std::map<std::string, std::string> &query() const { return m_query; }
+  const int query_size() const { return m_query.size(); }
+  const std::string &raw() const { return m_raw; }
+  const std::string &fragment() const { return m_fragment; }
 
-        ~Uri() = default;
+private:
+  std::string m_raw;
+  std::string m_port;
+  std::string m_scheme;
+  std::string m_host;
+  std::string m_path;
+  std::string m_fragment;
+  std::map<std::string, std::string> m_query;
+  bool m_is_valid;
+};
 
-        [[nodiscard]] bool isValidUri() const { return isValid; }
+} // namespace staxys::network
 
-        [[nodiscard]] std::string getPort() const { return port; }
-
-        [[nodiscard]] std::string getScheme() const { return scheme; }
-
-        [[nodiscard]] std::string getHost() const { return host; }
-
-        [[nodiscard]] std::string getPath() const { return path; }
-
-        [[nodiscard]] std::string getQueryParameter(const std::string &key) const { return query.at(key); }
-
-        [[nodiscard]] std::map<std::string, std::string> getQuery() const { return query; }
-
-        [[nodiscard]] int getQuerySize() const { return query.size(); }
-
-        [[nodiscard]] std::string getRaw() const { return raw; }
-
-        [[nodiscard]] std::string getFragment() const { return fragment; }
-
-    private:
-        std::string raw;
-        std::string port;
-        std::string scheme;
-        std::string host;
-        std::string path;
-        std::string fragment;
-        std::map<std::string, std::string> query;
-        bool isValid;
-    };
-
-}
-
-#endif //STAXYS_URI_H
+#endif // STAXYS_URI_H

@@ -21,24 +21,24 @@
 #include <vector>
 
 namespace staxys::utils {
-    class StringUtils {
-    public:
-        static std::string trim(const std::string &str);
+class StringUtils {
+public:
+  static std::string trim(const std::string &str);
 
-        static std::vector<std::string> split(const std::string &str, char delimiter);
+  static std::vector<std::string> split(const std::string &str, char delimiter);
 
-        static std::string toLower(const std::string &str);
+  static std::string to_lower(const std::string &str);
 
-        static std::string toUpper(const std::string &str);
+  static std::string to_upper(const std::string &str);
 
-        static std::string replace(const std::string &str, const std::string &from, const std::string &to);
+  static std::string replace(const std::string &str, const std::string &from, const std::string &to);
 
-        static bool contains(const std::string &str, const std::string &substring);
+  static bool contains(const std::string &str, const std::string &substring);
 
-        static bool startsWith(const std::string &str, const std::string &prefix);
+  static bool starts_with(const std::string &str, const std::string &prefix);
 
-        static bool endsWith(const std::string &str, const std::string &suffix);
-    };
-}
+  static bool ends_with(const std::string &str, const std::string &suffix);
+};
+} // namespace staxys::utils
 
-#endif //STAXYS_STRING_UTILS_H
+#endif // STAXYS_STRING_UTILS_H

@@ -19,4 +19,4 @@
 
 // TODO: Implement FileUtils
 
-#endif //STAXYS_FILE_UTILS_H
+#endif // STAXYS_FILE_UTILS_H

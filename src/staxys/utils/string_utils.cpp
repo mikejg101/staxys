@@ -15,9 +15,9 @@
  */
 
 #include "staxys/utils/string_utils.h"
-#include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <sstream>
 
 /**
  * Trim leading and trailing whitespace from a string. Whitespace is defined as any character for which std::isspace
@@ -26,13 +26,13 @@
  * @return The trimmed string.
  */
 std::string staxys::utils::StringUtils::trim(const std::string &str) {
-    auto start = str.find_first_not_of(" \t\n");
-    if (start == std::string::npos) {
-        return "";
-    }
+  auto start = str.find_first_not_of(" \t\n");
+  if (start == std::string::npos) {
+    return "";
+  }
 
-    auto end = str.find_last_not_of(" \t\n");
-    return str.substr(start, end - start + 1);
+  auto end = str.find_last_not_of(" \t\n");
+  return str.substr(start, end - start + 1);
 }
 
 /**
@@ -42,13 +42,13 @@ std::string staxys::utils::StringUtils::trim(const std::string &str) {
  * @return A vector of strings.
  */
 std::vector<std::string> staxys::utils::StringUtils::split(const std::string &str, char delimiter) {
-    std::vector<std::string> result;
-    std::string token;
-    std::istringstream tokenStream(str);
-    while (std::getline(tokenStream, token, delimiter)) {
-        result.push_back(token);
-    }
-    return result;
+  std::vector<std::string> result;
+  std::string token;
+  std::istringstream tokenStream(str);
+  while (std::getline(tokenStream, token, delimiter)) {
+    result.push_back(token);
+  }
+  return result;
 }
 
 /**
@@ -56,10 +56,10 @@ std::vector<std::string> staxys::utils::StringUtils::split(const std::string &st
  * @param str The string to convert.
  * @return The lowercase string.
  */
-std::string staxys::utils::StringUtils::toLower(const std::string &str) {
-    auto result = str;
-    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-    return result;
+std::string staxys::utils::StringUtils::to_lower(const std::string &str) {
+  auto result = str;
+  std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  return result;
 }
 
 /**
@@ -67,10 +67,10 @@ std::string staxys::utils::StringUtils::toLower(const std::string &str) {
  * @param str The string to convert.
  * @return The uppercase string.
  */
-std::string staxys::utils::StringUtils::toUpper(const std::string &str) {
-    auto result = str;
-    std::transform(result.begin(), result.end(), result.begin(), ::toupper);
-    return result;
+std::string staxys::utils::StringUtils::to_upper(const std::string &str) {
+  auto result = str;
+  std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+  return result;
 }
 
 /**
@@ -80,15 +80,15 @@ std::string staxys::utils::StringUtils::toUpper(const std::string &str) {
  * @param to The substring to replace with.
  * @return The modified string with all occurrences of 'from' replaced by 'to'.
  */
-std::string
-staxys::utils::StringUtils::replace(const std::string &str, const std::string &from, const std::string &to) {
-    auto result = str;
-    size_t start_pos = 0;
-    while ((start_pos = result.find(from, start_pos)) != std::string::npos) {
-        result.replace(start_pos, from.length(), to);
-        start_pos += to.length();
-    }
-    return result;
+std::string staxys::utils::StringUtils::replace(const std::string &str, const std::string &from,
+                                                const std::string &to) {
+  auto result = str;
+  size_t start_pos = 0;
+  while ((start_pos = result.find(from, start_pos)) != std::string::npos) {
+    result.replace(start_pos, from.length(), to);
+    start_pos += to.length();
+  }
+  return result;
 }
 
 /**
@@ -98,7 +98,7 @@ staxys::utils::StringUtils::replace(const std::string &str, const std::string &f
  * @return True if the substring is found, false otherwise.
  */
 bool staxys::utils::StringUtils::contains(const std::string &str, const std::string &substring) {
-    return str.find(substring) != std::string::npos;
+  return str.find(substring) != std::string::npos;
 }
 
 /**
@@ -107,8 +107,8 @@ bool staxys::utils::StringUtils::contains(const std::string &str, const std::str
  * @param prefix The prefix to look for.
  * @return True if the string starts with the prefix, false otherwise.
  */
-bool staxys::utils::StringUtils::startsWith(const std::string &str, const std::string &prefix) {
-    return str.rfind(prefix, 0) == 0;
+bool staxys::utils::StringUtils::starts_with(const std::string &str, const std::string &prefix) {
+  return str.rfind(prefix, 0) == 0;
 }
 
 /**
@@ -117,6 +117,6 @@ bool staxys::utils::StringUtils::startsWith(const std::string &str, const std::s
  * @param suffix The suffix to look for.
  * @return True if the string ends with the suffix, false otherwise.
  */
-bool staxys::utils::StringUtils::endsWith(const std::string &str, const std::string &suffix) {
-    return str.size() >= suffix.size() && str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+bool staxys::utils::StringUtils::ends_with(const std::string &str, const std::string &suffix) {
+  return str.size() >= suffix.size() && str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }

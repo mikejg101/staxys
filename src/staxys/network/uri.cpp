@@ -17,13 +17,13 @@
 #include "staxys/network/uri.h"
 #include "staxys/utils/uri_utils.h"
 
-staxys::network::Uri::Uri(std::string uri) : raw(std::move(uri)) {
-    staxys::utils::UriUtils::UriComponents components;
-    staxys::utils::UriUtils::parse(raw, components);
-    scheme = components.scheme;
-    host = components.host;
-    port = components.port;
-    path = components.path;
-    query = components.query;
-    fragment = components.fragment;
+staxys::network::Uri::Uri(std::string uri) : m_raw(std::move(uri)) {
+  staxys::utils::UriUtils::UriComponents components;
+  staxys::utils::UriUtils::parse(m_raw, components);
+  m_scheme = components.scheme;
+  m_host = components.host;
+  m_port = components.port;
+  m_path = components.path;
+  m_query = components.query;
+  m_fragment = components.fragment;
 }

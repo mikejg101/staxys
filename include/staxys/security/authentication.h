@@ -19,4 +19,4 @@
 
 // TODO: Implement Authentication
 
-#endif //STAXYS_AUTHENTICATION_H
+#endif // STAXYS_AUTHENTICATION_H

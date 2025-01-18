@@ -21,17 +21,17 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_BUILD_TYPE Release)  # Default to Release build type
+set(BUILD_GTEST OFF CACHE BOOL "Disable GoogleTest installation")
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DDEBUG) 
+endif()
 
 project(staxys)
 
-# Fetch GoogleTest
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG release-1.10.0  # Specify the version/tag you need
-)
-FetchContent_MakeAvailable(googletest)
+find_package(Boost REQUIRED COMPONENTS program_options)
+
+include_directories(${Boost_INCLUDE_DIRS})
 
 # Automatically collect all .cpp files in the src/staxys subdirectories
 file(GLOB_RECURSE SOURCES
@@ -52,11 +52,32 @@ add_executable(staxys ${SOURCES})
 # Define the path to the include directory
 target_include_directories(staxys PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
-# Link GoogleTest to your executable
-target_link_libraries(staxys PRIVATE gtest gtest_main)
+# Link Boost libraries
+target_link_libraries(staxys PRIVATE ${Boost_LIBRARIES})
 
-# Add tests
-enable_testing()
+# Conditionally add tests
+if (BUILD_GTEST)
+        # Fetch GoogleTest
+        include(FetchContent)
+        FetchContent_Declare(
+                googletest
+                GIT_REPOSITORY https://github.com/google/googletest.git
+                GIT_TAG release-1.12.1
+        )
+        FetchContent_MakeAvailable(googletest)
 
-# Add the tests directory (make sure CMake knows about it)
-add_subdirectory(tests)
+        # Link GoogleTest to your executable
+        target_link_libraries(staxys PRIVATE gtest gtest_main)
+
+        # Add tests
+        enable_testing()
+
+        # Add the tests directory (make sure CMake knows about it)
+        add_subdirectory(tests)
+endif ()
+
+install(TARGETS staxys DESTINATION bin) 
+
+install(FILES ${CMAKE_SOURCE_DIR}/config/staxys.cfg DESTINATION /etc/staxys/)
+
+install(CODE "execute_process(COMMAND ${CMAKE_SOURCE_DIR}/post_install)")

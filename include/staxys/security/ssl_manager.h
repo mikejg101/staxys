@@ -19,4 +19,4 @@
 
 // TODO: Implement SSLManager
 
-#endif //STAXYS_SSL_MANAGER_H
+#endif // STAXYS_SSL_MANAGER_H

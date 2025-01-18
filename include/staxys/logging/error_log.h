@@ -19,4 +19,4 @@
 
 // TODO: Implement ErrorLog
 
-#endif //STAXYS_ERROR_LOG_H
+#endif // STAXYS_ERROR_LOG_H

@@ -19,4 +19,4 @@
 
 // TODO: Implement Request
 
-#endif //STAXYS_REQUEST_H
+#endif // STAXYS_REQUEST_H

@@ -14,19 +14,35 @@
  * limitations under the License.
  */
 
-#ifndef STAXYS_VALIDATOR_H
-#define STAXYS_VALIDATOR_H
+#ifndef STAXYS_ENGINE_H
+#define STAXYS_ENGINE_H
 
 #include "staxys/config/engine_config.h"
-#include "staxys/config/server_config.h"
+#include <csignal>
 #include <memory>
 
-namespace staxys::config {
-class Validator {
-public:
-  static bool validate_engine_config(const std::shared_ptr<const EngineConfig> &config);
-  static bool validate_server_config(const std::shared_ptr<const ServerConfig> &config);
-};
-} // namespace staxys::config
+namespace staxys::core {
 
-#endif // STAXYS_VALIDATOR_H
+class Engine {
+public:
+  explicit Engine(std::shared_ptr<const staxys::config::EngineConfig> &config) : m_config(config) {}
+  ~Engine() = default;
+  int start_application(bool asDaemon);
+  int stop_application();
+  int restart_application();
+  static void signal_handler(int signal, siginfo_t *info, void *context);
+
+private:
+  int main_task();
+  bool m_is_running = false;
+  bool m_is_daemon = false;
+  std::shared_ptr<const staxys::config::EngineConfig> m_config;
+};
+
+struct EngineSignalData {
+  Engine *engine;
+};
+
+} // namespace staxys::core
+
+#endif // STAXYS_ENGINE_H
