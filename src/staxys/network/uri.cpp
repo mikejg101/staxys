@@ -18,8 +18,8 @@
 #include "staxys/utils/uri_utils.h"
 
 staxys::network::Uri::Uri(std::string uri) : m_raw(std::move(uri)) {
-  staxys::utils::UriUtils::UriComponents components;
-  staxys::utils::UriUtils::parse(m_raw, components);
+  utils::UriUtils::UriComponents components;
+  utils::UriUtils::parse(m_raw, components);
   m_scheme = components.scheme;
   m_host = components.host;
   m_port = components.port;

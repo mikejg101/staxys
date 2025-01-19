@@ -58,7 +58,7 @@ std::vector<std::string> staxys::utils::StringUtils::split(const std::string &st
  */
 std::string staxys::utils::StringUtils::to_lower(const std::string &str) {
   auto result = str;
-  std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  std::transform(result.begin(), result.end(), result.begin(), tolower);
   return result;
 }
 
@@ -69,7 +69,7 @@ std::string staxys::utils::StringUtils::to_lower(const std::string &str) {
  */
 std::string staxys::utils::StringUtils::to_upper(const std::string &str) {
   auto result = str;
-  std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+  std::transform(result.begin(), result.end(), result.begin(), toupper);
   return result;
 }
 

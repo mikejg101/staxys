@@ -21,13 +21,13 @@
 #include <regex>
 #include <sstream>
 
-bool staxys::utils::UriUtils::parse(const std::string &uri, staxys::utils::UriUtils::UriComponents &components) {
+bool staxys::utils::UriUtils::parse(const std::string &uri, UriComponents &components) {
   if (uri.empty()) {
     return false;
   }
 
   std::string uri_temp = uri;
-  if (!staxys::utils::StringUtils::contains(uri_temp, "://")) {
+  if (!StringUtils::contains(uri_temp, "://")) {
     uri_temp = "http://" + uri_temp;
   }
 
@@ -41,7 +41,7 @@ bool staxys::utils::UriUtils::parse(const std::string &uri, staxys::utils::UriUt
   components.scheme = match[2].str();
   components.host = match[4].str();
 
-  if (staxys::utils::StringUtils::contains(components.host, ":")) {
+  if (StringUtils::contains(components.host, ":")) {
     auto pos = components.host.find(':');
     components.port = components.host.substr(pos + 1);
     components.host = components.host.substr(0, pos);
@@ -92,8 +92,8 @@ std::string staxys::utils::UriUtils::decode(const std::string &component) {
 }
 
 std::string staxys::utils::UriUtils::resolve(const std::string &base, const std::string &relative) {
-  staxys::utils::UriUtils::UriComponents components;
-  auto is_valid = staxys::utils::UriUtils::parse(base, components);
+  UriComponents components;
+  auto is_valid = parse(base, components);
   if (!is_valid) {
     return "";
   }
@@ -140,7 +140,7 @@ bool staxys::utils::UriUtils::validate(const std::string &uri) {
   }
 
   std::string uri_temp = uri;
-  if (!staxys::utils::StringUtils::contains(uri_temp, "://")) {
+  if (!StringUtils::contains(uri_temp, "://")) {
     uri_temp = "http://" + uri_temp;
   }
 
@@ -151,14 +151,14 @@ bool staxys::utils::UriUtils::validate(const std::string &uri) {
 }
 
 std::string staxys::utils::UriUtils::get_path(const std::string &uri) {
-  staxys::utils::UriUtils::UriComponents components;
-  staxys::utils::UriUtils::parse(uri, components);
+  UriComponents components;
+  parse(uri, components);
   return components.path;
 }
 
 std::map<std::string, std::string> staxys::utils::UriUtils::get_query(const std::string &uri) {
-  staxys::utils::UriUtils::UriComponents components;
-  staxys::utils::UriUtils::parse(uri, components);
+  UriComponents components;
+  parse(uri, components);
   return components.query;
 }
 

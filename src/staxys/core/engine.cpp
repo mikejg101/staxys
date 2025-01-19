@@ -29,7 +29,7 @@ int Engine::start_application(const bool asDaemon) {
 
   struct sigaction sa;
   sa.sa_flags = SA_SIGINFO;
-  sa.sa_sigaction = Engine::signal_handler;
+  sa.sa_sigaction = signal_handler;
   sigemptyset(&sa.sa_mask);
 
   EngineSignalData signal_data{this};
@@ -41,18 +41,18 @@ int Engine::start_application(const bool asDaemon) {
 
   if (!asDaemon) {
     m_is_running = true;
-    return Engine::main_task();
+    return main_task();
   }
 
   std::cout << "Running as a daemon..." << std::endl;
-  if (!staxys::utils::DaemonUtils::validate_daemon_configuration(m_config->user(), m_config->pid_file())) {
+  if (!utils::DaemonUtils::validate_daemon_configuration(m_config->user(), m_config->pid_file())) {
     return EXIT_FAILURE;
   }
 
-  if (staxys::utils::DaemonUtils::start(m_config->pid_file())) {
+  if (utils::DaemonUtils::start(m_config->pid_file())) {
     std::cout << "Application started successfully." << std::endl;
     m_is_running = true;
-    return Engine::main_task();
+    return main_task();
   }
 
   std::cerr << "Failed to start the application." << std::endl;
@@ -62,7 +62,7 @@ int Engine::start_application(const bool asDaemon) {
 int Engine::stop_application() {
   std::cout << "Stopping the application..." << std::endl;
 
-  if (staxys::utils::DaemonUtils::stop(m_config->pid_file())) {
+  if (utils::DaemonUtils::stop(m_config->pid_file())) {
     std::cout << "Application stopped successfully." << std::endl;
     m_is_running = false;
     return EXIT_SUCCESS;

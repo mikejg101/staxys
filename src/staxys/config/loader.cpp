@@ -41,7 +41,7 @@ std::shared_ptr<const EngineConfig> Loader::load_engine_config(const std::string
 
       // TODO: We only really need to trim start. We could also not trim at
       //       all and just check for '#' at the start of the line.
-      if (staxys::utils::StringUtils::trim(line)[0] == '#') {
+      if (utils::StringUtils::trim(line)[0] == '#') {
         continue;
       }
 
@@ -50,8 +50,8 @@ std::shared_ptr<const EngineConfig> Loader::load_engine_config(const std::string
         continue;
       }
 
-      auto key = staxys::utils::StringUtils::trim(line.substr(0, delimiter));
-      auto value = staxys::utils::StringUtils::trim(line.substr(delimiter + 1));
+      auto key = utils::StringUtils::trim(line.substr(0, delimiter));
+      auto value = utils::StringUtils::trim(line.substr(delimiter + 1));
 
       if (value.front() == '"' && value.back() == '"') {
         value = value.substr(1, value.size() - 2);
